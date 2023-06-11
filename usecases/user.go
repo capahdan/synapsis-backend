@@ -84,7 +84,7 @@ func (u *userUsecase) UserLogin(input dtos.UserLoginInput) (dtos.UserInformation
 // @Accept       json
 // @Produce      json
 // @Param        request body dtos.UserRegisterInput true "Payload Body [RAW]"
-// @Success      201 {object} dtos.UserCreeatedResponse
+// @Success      201 {object} dtos.UserCreatedResponse
 // @Failure      400 {object} dtos.BadRequestResponse
 // @Failure      401 {object} dtos.UnauthorizedResponse
 // @Failure      403 {object} dtos.ForbiddenResponse

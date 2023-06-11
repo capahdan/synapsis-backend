@@ -140,7 +140,7 @@ func (u *categoryUsecase) CreateCategory(category *dtos.CategoryInput) (dtos.Cat
 // @Failure      403 {object} dtos.ForbiddenResponse
 // @Failure      404 {object} dtos.NotFoundResponse
 // @Failure      500 {object} dtos.InternalServerErrorResponse
-// @Router       /category [put]
+// @Router       /category/{id} [put]
 // @Security BearerAuth
 func (u *categoryUsecase) UpdateCategory(id uint, categoryInput dtos.CategoryInput) (dtos.CategoryResponse, error) {
 

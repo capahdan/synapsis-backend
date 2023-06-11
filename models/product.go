@@ -10,4 +10,5 @@ type Product struct {
 	Price       int
 	Stock       int
 	Status      bool
+	Carts       []Cart `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }

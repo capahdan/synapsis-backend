@@ -25,15 +25,15 @@ type UserUpdateInformationInput struct {
 }
 
 type UserUpdatePasswordInput struct {
-	OldPassword     string `form:"old_password" json:"old_password" example:"qweqwe123"`
+	OldPassword     string `form:"old_password" json:"old_password" example:"alhamdulillah123"`
 	NewPassword     string `form:"new_password" json:"new_password" example:"asdqwe123"`
 	ConfirmPassword string `form:"confirm_password" json:"confirm_password" example:"asdqwe123"`
 }
 
 type UserUpdateProfileInput struct {
-	FullName    string `form:"full_name" json:"full_name" example:"Hanif Mochammad"`
+	FullName    string `form:"full_name" json:"full_name" example:"Daniel Capah"`
 	PhoneNumber string `form:"phone_number" json:"phone_number" example:"085199999999"`
-	BirthDate   string `form:"birth_date" json:"birth_date" example:"2000-01-01"`
+	BirthDate   string `form:"birth_date" json:"birth_date" example:"2001-02-28"`
 	Citizen     string `form:"citizen" json:"citizen" example:"Indonesia"`
 }
 

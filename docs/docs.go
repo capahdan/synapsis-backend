@@ -24,14 +24,14 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin/train": {
+        "/cart": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Get all train",
+                "description": "Get all cart",
                 "consumes": [
                     "application/json"
                 ],
@@ -39,9 +39,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Train"
+                    "Cart"
                 ],
-                "summary": "Get all train",
+                "summary": "Get all cart",
                 "parameters": [
                     {
                         "type": "integer",
@@ -54,87 +54,19 @@ const docTemplate = `{
                         "description": "Number of items per page",
                         "name": "limit",
                         "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.GetAllTrainStatusOKResponse"
-                        }
                     },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.BadRequestResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.UnauthorizedResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.ForbiddenResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.NotFoundResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.InternalServerErrorResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update train",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Train"
-                ],
-                "summary": "Update train",
-                "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID train",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Payload Body [RAW]",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dtos.TrainInput"
-                        }
+                        "description": "Seacrh by category ID",
+                        "name": "category_id",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dtos.TrainStatusOKResponse"
+                            "$ref": "#/definitions/dtos.GetAllCartStatusOKResponse"
                         }
                     },
                     "400": {
@@ -175,7 +107,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new train",
+                "description": "Create a new cart",
                 "consumes": [
                     "application/json"
                 ],
@@ -183,9 +115,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Train"
+                    "Cart"
                 ],
-                "summary": "Create a new train",
+                "summary": "Create a new cart",
                 "parameters": [
                     {
                         "description": "Payload Body [RAW]",
@@ -193,7 +125,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dtos.TrainInput"
+                            "$ref": "#/definitions/dtos.CartInput"
                         }
                     }
                 ],
@@ -201,7 +133,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dtos.TrainStatusOKResponse"
+                            "$ref": "#/definitions/dtos.CartStatusOKResponse"
                         }
                     },
                     "400": {
@@ -237,14 +169,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/train/{id}": {
+        "/cart/{id}": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Get train by ID",
+                "description": "Get cart by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -252,13 +184,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Train"
+                    "Cart"
                 ],
-                "summary": "Get train by ID",
+                "summary": "Get cart by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID train",
+                        "description": "ID cart",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -268,7 +200,81 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dtos.TrainStatusOKResponse"
+                            "$ref": "#/definitions/dtos.CartStatusOKResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.BadRequestResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.ForbiddenResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.NotFoundResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.InternalServerErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update cart",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Update cart",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID cart",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Body [RAW]",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.CartInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.CartStatusOKResponse"
                         }
                     },
                     "400": {
@@ -309,7 +315,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a train",
+                "description": "Delete a cart",
                 "consumes": [
                     "application/json"
                 ],
@@ -317,13 +323,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Train"
+                    "Cart"
                 ],
-                "summary": "Delete a train",
+                "summary": "Delete a cart",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID train",
+                        "description": "ID cart",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -406,80 +412,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dtos.GetAllCategoryStatusOKResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.BadRequestResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.UnauthorizedResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.ForbiddenResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.NotFoundResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.InternalServerErrorResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update category",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Category"
-                ],
-                "summary": "Update category",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID category",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Payload Body [RAW]",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dtos.CategoryInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.CategoryStatusOKResponse"
                         }
                     },
                     "400": {
@@ -607,6 +539,80 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.CategoryStatusOKResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.BadRequestResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.ForbiddenResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.NotFoundResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.InternalServerErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Update category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID category",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Body [RAW]",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.CategoryInput"
+                        }
                     }
                 ],
                 "responses": {
@@ -855,80 +861,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update product",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Product"
-                ],
-                "summary": "Update product",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID product",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Payload Body [RAW]",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dtos.ProductInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.ProductStatusOKResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.BadRequestResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.UnauthorizedResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.ForbiddenResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.NotFoundResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.InternalServerErrorResponse"
-                        }
-                    }
-                }
-            },
             "post": {
                 "security": [
                     {
@@ -1022,6 +954,80 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.ProductStatusOKResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.BadRequestResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.ForbiddenResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.NotFoundResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.InternalServerErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Update product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID product",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Body [RAW]",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.ProductInput"
+                        }
                     }
                 ],
                 "responses": {
@@ -1157,7 +1163,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/dtos.UserCreeatedResponse"
+                            "$ref": "#/definitions/dtos.UserCreatedResponse"
                         }
                     },
                     "400": {
@@ -1474,6 +1480,76 @@ const docTemplate = `{
                 }
             }
         },
+        "dtos.CartInput": {
+            "type": "object",
+            "properties": {
+                "price": {
+                    "type": "integer",
+                    "example": 100000
+                },
+                "product_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "quantity": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "dtos.CartResponse": {
+            "type": "object",
+            "properties": {
+                "cart_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2023-05-17T15:07:16.504+07:00"
+                },
+                "price": {
+                    "type": "integer",
+                    "example": 100000
+                },
+                "product_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "quantity": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2023-05-17T15:07:16.504+07:00"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "dtos.CartStatusOKResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/dtos.CartResponse"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Successfully get cart"
+                },
+                "status_code": {
+                    "type": "integer",
+                    "example": 200
+                }
+            }
+        },
         "dtos.CategoryInput": {
             "type": "object",
             "properties": {
@@ -1534,6 +1610,25 @@ const docTemplate = `{
                 }
             }
         },
+        "dtos.GetAllCartStatusOKResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/dtos.CartResponse"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Successfully get cart"
+                },
+                "meta": {
+                    "$ref": "#/definitions/helpers.Meta"
+                },
+                "status_code": {
+                    "type": "integer",
+                    "example": 200
+                }
+            }
+        },
         "dtos.GetAllCategoryStatusOKResponse": {
             "type": "object",
             "properties": {
@@ -1562,25 +1657,6 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "Successfully get product"
-                },
-                "meta": {
-                    "$ref": "#/definitions/helpers.Meta"
-                },
-                "status_code": {
-                    "type": "integer",
-                    "example": 200
-                }
-            }
-        },
-        "dtos.GetAllTrainStatusOKResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/dtos.TrainResponse"
-                },
-                "message": {
-                    "type": "string",
-                    "example": "Successfully get train"
                 },
                 "meta": {
                     "$ref": "#/definitions/helpers.Meta"
@@ -1705,23 +1781,6 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.StationInput": {
-            "type": "object",
-            "properties": {
-                "initial": {
-                    "type": "string",
-                    "example": "PSE"
-                },
-                "name": {
-                    "type": "string",
-                    "example": "Pasar Senen"
-                },
-                "origin": {
-                    "type": "string",
-                    "example": "Jakarta"
-                }
-            }
-        },
         "dtos.StatusOKDeletedResponse": {
             "type": "object",
             "properties": {
@@ -1729,106 +1788,6 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "Successfully deleted"
-                },
-                "status_code": {
-                    "type": "integer",
-                    "example": 200
-                }
-            }
-        },
-        "dtos.TrainInput": {
-            "type": "object",
-            "properties": {
-                "arrive_time": {
-                    "type": "string",
-                    "example": "10:00"
-                },
-                "departure_time": {
-                    "type": "string",
-                    "example": "05:00"
-                },
-                "name": {
-                    "type": "string",
-                    "example": "Bengawan"
-                },
-                "route": {
-                    "type": "string",
-                    "example": "Jakarta, Bekasi, Cikarang, Karawang, Purwokerto"
-                },
-                "station_destination_id": {
-                    "type": "integer",
-                    "example": 2
-                },
-                "station_origin_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "status": {
-                    "type": "string",
-                    "example": "available"
-                }
-            }
-        },
-        "dtos.TrainResponse": {
-            "type": "object",
-            "properties": {
-                "arrive_time": {
-                    "type": "string",
-                    "example": "10:00"
-                },
-                "created_at": {
-                    "type": "string",
-                    "example": "2023-05-17T15:07:16.504+07:00"
-                },
-                "departure_time": {
-                    "type": "string",
-                    "example": "05:00"
-                },
-                "name": {
-                    "type": "string",
-                    "example": "Bengawan"
-                },
-                "route": {
-                    "type": "string",
-                    "example": "Jakarta, Bekasi, Cikarang, Karawang, Purwokerto"
-                },
-                "station_destination": {
-                    "$ref": "#/definitions/dtos.StationInput"
-                },
-                "station_destination_id": {
-                    "type": "integer",
-                    "example": 2
-                },
-                "station_origin": {
-                    "$ref": "#/definitions/dtos.StationInput"
-                },
-                "station_origin_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "status": {
-                    "type": "string",
-                    "example": "available"
-                },
-                "train_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "updated_at": {
-                    "type": "string",
-                    "example": "2023-05-17T15:07:16.504+07:00"
-                }
-            }
-        },
-        "dtos.TrainStatusOKResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/dtos.TrainResponse"
-                },
-                "message": {
-                    "type": "string",
-                    "example": "Successfully get train"
                 },
                 "status_code": {
                     "type": "integer",
@@ -1850,7 +1809,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.UserCreeatedResponse": {
+        "dtos.UserCreatedResponse": {
             "type": "object",
             "properties": {
                 "data": {
@@ -2000,7 +1959,7 @@ const docTemplate = `{
                 },
                 "old_password": {
                     "type": "string",
-                    "example": "qweqwe123"
+                    "example": "alhamdulillah123"
                 }
             }
         },
@@ -2009,7 +1968,7 @@ const docTemplate = `{
             "properties": {
                 "birth_date": {
                     "type": "string",
-                    "example": "2000-01-01"
+                    "example": "2001-02-28"
                 },
                 "citizen": {
                     "type": "string",
@@ -2017,7 +1976,7 @@ const docTemplate = `{
                 },
                 "full_name": {
                     "type": "string",
-                    "example": "Hanif Mochammad"
+                    "example": "Daniel Capah"
                 },
                 "phone_number": {
                     "type": "string",

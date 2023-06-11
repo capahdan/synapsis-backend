@@ -161,7 +161,7 @@ func (u *productUsecase) CreateProduct(product *dtos.ProductInput) (dtos.Product
 // @Failure      403 {object} dtos.ForbiddenResponse
 // @Failure      404 {object} dtos.NotFoundResponse
 // @Failure      500 {object} dtos.InternalServerErrorResponse
-// @Router       /product [put]
+// @Router       /product/{id} [put]
 // @Security BearerAuth
 func (u *productUsecase) UpdateProduct(id uint, productInput dtos.ProductInput) (dtos.ProductResponse, error) {
 
