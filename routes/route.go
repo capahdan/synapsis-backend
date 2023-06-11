@@ -54,26 +54,17 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	category.PUT("/:id", categoryController.UpdateCategory)
 	category.DELETE("/:id", categoryController.DeleteCategory)
 
-	stationRepository := repositories.NewStationRepository(db)
-	stationUsecase := usecases.NewStationUsecase(stationRepository)
-	stationController := controllers.NewStationController(stationUsecase)
+	// Product
+	productRepository := repositories.NewProductRepository(db)
+	productUsecase := usecases.NewProductUsecase(productRepository)
+	productController := controllers.NewProductController(productUsecase)
 
-	trainRepository := repositories.NewTrainRepository(db)
-	trainUsecase := usecases.NewTrainUsecase(trainRepository)
-	trainController := controllers.NewTrainController(trainUsecase)
-
-	admin := api.Group("/admin")
-	admin.Use(middlewares.JWTMiddleware)
-	admin.GET("/station", stationController.GetAllStations)
-	admin.GET("/station/:id", stationController.GetStationByID)
-	admin.PUT("/station/:id", stationController.UpdateStation)
-	admin.POST("/station", stationController.CreateStation)
-	admin.DELETE("/station/:id", stationController.DeleteStation)
-
-	admin.GET("/train", trainController.GetAllTrains)
-	admin.GET("/train/:id", trainController.GetTrainByID)
-	admin.PUT("/train/:id", trainController.UpdateTrain)
-	admin.POST("/train", trainController.CreateTrain)
-	admin.DELETE("/train/:id", trainController.DeleteTrain)
+	product := api.Group("/product")
+	// product.Use(middlewares.JWTMiddleware)
+	product.GET("", productController.GetAllProducts)
+	product.GET("/:id", productController.GetProductByID)
+	product.POST("", productController.CreateProduct)
+	product.PUT("/:id", productController.UpdateProduct)
+	product.DELETE("/:id", productController.DeleteProduct)
 
 }

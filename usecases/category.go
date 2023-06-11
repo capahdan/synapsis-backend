@@ -37,7 +37,7 @@ func NewCategoryUsecase(CategoryRepo repositories.CategoryRepository) CategoryUs
 // @Failure      403 {object} dtos.ForbiddenResponse
 // @Failure      404 {object} dtos.NotFoundResponse
 // @Failure      500 {object} dtos.InternalServerErrorResponse
-// @Router       /admin/category [get]
+// @Router       /category [get]
 // @Security BearerAuth
 func (u *categoryUsecase) GetAllCategorys(page, limit int) ([]dtos.CategoryResponse, int, error) {
 	categorys, count, err := u.categoryRepo.GetAllCategorys(page, limit)
@@ -72,7 +72,7 @@ func (u *categoryUsecase) GetAllCategorys(page, limit int) ([]dtos.CategoryRespo
 // @Failure      403 {object} dtos.ForbiddenResponse
 // @Failure      404 {object} dtos.NotFoundResponse
 // @Failure      500 {object} dtos.InternalServerErrorResponse
-// @Router       /admin/category/{id} [get]
+// @Router       /category/{id} [get]
 // @Security BearerAuth
 func (u *categoryUsecase) GetCategoryByID(id uint) (dtos.CategoryResponse, error) {
 	var categoryResponses dtos.CategoryResponse
@@ -102,7 +102,7 @@ func (u *categoryUsecase) GetCategoryByID(id uint) (dtos.CategoryResponse, error
 // @Failure      403 {object} dtos.ForbiddenResponse
 // @Failure      404 {object} dtos.NotFoundResponse
 // @Failure      500 {object} dtos.InternalServerErrorResponse
-// @Router       /admin/category [post]
+// @Router       /category [post]
 // @Security BearerAuth
 func (u *categoryUsecase) CreateCategory(category *dtos.CategoryInput) (dtos.CategoryResponse, error) {
 	var categoryResponses dtos.CategoryResponse
@@ -140,7 +140,7 @@ func (u *categoryUsecase) CreateCategory(category *dtos.CategoryInput) (dtos.Cat
 // @Failure      403 {object} dtos.ForbiddenResponse
 // @Failure      404 {object} dtos.NotFoundResponse
 // @Failure      500 {object} dtos.InternalServerErrorResponse
-// @Router       /admin/category [put]
+// @Router       /category [put]
 // @Security BearerAuth
 func (u *categoryUsecase) UpdateCategory(id uint, categoryInput dtos.CategoryInput) (dtos.CategoryResponse, error) {
 
@@ -183,7 +183,7 @@ func (u *categoryUsecase) UpdateCategory(id uint, categoryInput dtos.CategoryInp
 // @Failure      403 {object} dtos.ForbiddenResponse
 // @Failure      404 {object} dtos.NotFoundResponse
 // @Failure      500 {object} dtos.InternalServerErrorResponse
-// @Router       /admin/category/{id} [delete]
+// @Router       /category/{id} [delete]
 // @Security BearerAuth
 func (u *categoryUsecase) DeleteCategory(id uint) error {
 	category, err := u.categoryRepo.GetCategoryByID(id)

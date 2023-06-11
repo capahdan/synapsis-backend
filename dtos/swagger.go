@@ -8,48 +8,45 @@ type UserStatusOKResponse struct {
 	Data       UserInformationResponse `json:"data"`
 }
 
-type UserCreeatedResponse struct {
+type UserCreatedResponse struct {
 	StatusCode int                     `json:"status_code" example:"201"`
 	Message    string                  `json:"message" example:"Successfully registered"`
 	Data       UserInformationResponse `json:"data"`
 }
+type CategoryCreatedResponse struct {
+	StatusCode int              `json:"status_code" example:"201"`
+	Message    string           `json:"message" example:"Successfully created category"`
+	Data       CategoryResponse `json:"data"`
+}
 
-type GetAllStationStatusOKResponse struct {
+type GetAllCategoryStatusOKResponse struct {
+	StatusCode int              `json:"status_code" example:"200"`
+	Message    string           `json:"message" example:"Successfully get category"`
+	Data       CategoryResponse `json:"data"`
+	Meta       helpers.Meta     `json:"meta"`
+}
+
+type CategoryStatusOKResponse struct {
+	StatusCode int              `json:"status_code" example:"200"`
+	Message    string           `json:"message" example:"Successfully get category"`
+	Data       CategoryResponse `json:"data"`
+}
+type ProductCreatedResponse struct {
+	StatusCode int             `json:"status_code" example:"201"`
+	Message    string          `json:"message" example:"Successfully created product"`
+	Data       ProductResponse `json:"data"`
+}
+
+type GetAllProductStatusOKResponse struct {
 	StatusCode int             `json:"status_code" example:"200"`
-	Message    string          `json:"message" example:"Successfully get station"`
-	Data       StationResponse `json:"data"`
+	Message    string          `json:"message" example:"Successfully get product"`
+	Data       ProductResponse `json:"data"`
 	Meta       helpers.Meta    `json:"meta"`
 }
-
-type StationStatusOKResponse struct {
+type ProductStatusOKResponse struct {
 	StatusCode int             `json:"status_code" example:"200"`
-	Message    string          `json:"message" example:"Successfully get station"`
-	Data       StationResponse `json:"data"`
-}
-
-type StationCreeatedResponse struct {
-	StatusCode int             `json:"status_code" example:"201"`
-	Message    string          `json:"message" example:"Successfully created station"`
-	Data       StationResponse `json:"data"`
-}
-
-type GetAllTrainStatusOKResponse struct {
-	StatusCode int           `json:"status_code" example:"200"`
-	Message    string        `json:"message" example:"Successfully get train"`
-	Data       TrainResponse `json:"data"`
-	Meta       helpers.Meta  `json:"meta"`
-}
-
-type TrainStatusOKResponse struct {
-	StatusCode int           `json:"status_code" example:"200"`
-	Message    string        `json:"message" example:"Successfully get train"`
-	Data       TrainResponse `json:"data"`
-}
-
-type TrainCreeatedResponse struct {
-	StatusCode int           `json:"status_code" example:"201"`
-	Message    string        `json:"message" example:"Successfully created train"`
-	Data       TrainResponse `json:"data"`
+	Message    string          `json:"message" example:"Successfully get product"`
+	Data       ProductResponse `json:"data"`
 }
 
 type StatusOKDeletedResponse struct {

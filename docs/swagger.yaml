@@ -65,12 +65,12 @@ definitions:
         example: 200
         type: integer
     type: object
-  dtos.GetAllStationStatusOKResponse:
+  dtos.GetAllProductStatusOKResponse:
     properties:
       data:
-        $ref: '#/definitions/dtos.StationResponse'
+        $ref: '#/definitions/dtos.ProductResponse'
       message:
-        example: Successfully get station
+        example: Successfully get product
         type: string
       meta:
         $ref: '#/definitions/helpers.Meta'
@@ -111,6 +111,68 @@ definitions:
         example: 404
         type: integer
     type: object
+  dtos.ProductInput:
+    properties:
+      category_id:
+        example: 1
+        type: integer
+      description:
+        example: Pakaian Erigo Keluaran Terbaru
+        type: string
+      name:
+        example: Erigo
+        type: string
+      price:
+        example: 100000
+        type: integer
+      status:
+        example: true
+        type: boolean
+      stock:
+        example: 100
+        type: integer
+    type: object
+  dtos.ProductResponse:
+    properties:
+      category_id:
+        example: 1
+        type: integer
+      created_at:
+        example: "2023-05-17T15:07:16.504+07:00"
+        type: string
+      description:
+        example: Pakaian Erigo Keluaran Terbaru
+        type: string
+      name:
+        example: Erigo
+        type: string
+      price:
+        example: 100000
+        type: integer
+      product_id:
+        example: 1
+        type: integer
+      status:
+        example: true
+        type: boolean
+      stock:
+        example: 100
+        type: integer
+      updated_at:
+        example: "2023-05-17T15:07:16.504+07:00"
+        type: string
+    type: object
+  dtos.ProductStatusOKResponse:
+    properties:
+      data:
+        $ref: '#/definitions/dtos.ProductResponse'
+      message:
+        example: Successfully get product
+        type: string
+      status_code:
+        example: 200
+        type: integer
+    type: object
   dtos.StationInput:
     properties:
       initial:
@@ -122,38 +184,6 @@ definitions:
       origin:
         example: Jakarta
         type: string
-    type: object
-  dtos.StationResponse:
-    properties:
-      created_at:
-        example: "2023-05-17T15:07:16.504+07:00"
-        type: string
-      initial:
-        example: PSE
-        type: string
-      name:
-        example: Pasar Senen
-        type: string
-      origin:
-        example: Jakarta
-        type: string
-      station_id:
-        example: 1
-        type: integer
-      updated_at:
-        example: "2023-05-17T15:07:16.504+07:00"
-        type: string
-    type: object
-  dtos.StationStatusOKResponse:
-    properties:
-      data:
-        $ref: '#/definitions/dtos.StationResponse'
-      message:
-        example: Successfully get station
-        type: string
-      status_code:
-        example: 200
-        type: integer
     type: object
   dtos.StatusOKDeletedResponse:
     properties:
@@ -388,7 +418,7 @@ definitions:
 externalDocs:
   description: OpenAPI
   url: https://swagger.io/resources/open-api/
-host: localhost:8088
+host: localhost:8080
 info:
   contact:
     name: Daniel Capah
@@ -400,450 +430,6 @@ info:
   title: Synapsis Online Store API Documentation
   version: "1.0"
 paths:
-  /admin/category:
-    get:
-      consumes:
-      - application/json
-      description: Get all category
-      parameters:
-      - description: Page number
-        in: query
-        name: page
-        type: integer
-      - description: Number of items per page
-        in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.GetAllCategoryStatusOKResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Get all category
-      tags:
-      - Category
-    post:
-      consumes:
-      - application/json
-      description: Create a new category
-      parameters:
-      - description: Payload Body [RAW]
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dtos.CategoryInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.CategoryStatusOKResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Create a new category
-      tags:
-      - Category
-    put:
-      consumes:
-      - application/json
-      description: Update category
-      parameters:
-      - description: ID category
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Payload Body [RAW]
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dtos.CategoryInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.CategoryStatusOKResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Update category
-      tags:
-      - Category
-  /admin/category/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a category
-      parameters:
-      - description: ID category
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.StatusOKDeletedResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Delete a category
-      tags:
-      - Category
-    get:
-      consumes:
-      - application/json
-      description: Get category by ID
-      parameters:
-      - description: ID category
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.CategoryStatusOKResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Get category by ID
-      tags:
-      - Category
-  /admin/station:
-    get:
-      consumes:
-      - application/json
-      description: Get all stations
-      parameters:
-      - description: Page number
-        in: query
-        name: page
-        type: integer
-      - description: Number of items per page
-        in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.GetAllStationStatusOKResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Get all stations
-      tags:
-      - Station
-    post:
-      consumes:
-      - application/json
-      description: Create a new station
-      parameters:
-      - description: Payload Body [RAW]
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dtos.StationInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.StationStatusOKResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Create a new station
-      tags:
-      - Station
-    put:
-      consumes:
-      - application/json
-      description: Update station
-      parameters:
-      - description: ID station
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Payload Body [RAW]
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dtos.StationInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.StationStatusOKResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Update station
-      tags:
-      - Station
-  /admin/station/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a station
-      parameters:
-      - description: ID station
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.StatusOKDeletedResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Delete a station
-      tags:
-      - Station
-    get:
-      consumes:
-      - application/json
-      description: Get station by ID
-      parameters:
-      - description: ID station
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dtos.StationStatusOKResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.BadRequestResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/dtos.UnauthorizedResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/dtos.ForbiddenResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dtos.NotFoundResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.InternalServerErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Get station by ID
-      tags:
-      - Station
   /admin/train:
     get:
       consumes:
@@ -1066,6 +652,228 @@ paths:
       summary: Get train by ID
       tags:
       - Train
+  /category:
+    get:
+      consumes:
+      - application/json
+      description: Get all category
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.GetAllCategoryStatusOKResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all category
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: Create a new category
+      parameters:
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CategoryInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CategoryStatusOKResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new category
+      tags:
+      - Category
+    put:
+      consumes:
+      - application/json
+      description: Update category
+      parameters:
+      - description: ID category
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CategoryInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CategoryStatusOKResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update category
+      tags:
+      - Category
+  /category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a category
+      parameters:
+      - description: ID category
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.StatusOKDeletedResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a category
+      tags:
+      - Category
+    get:
+      consumes:
+      - application/json
+      description: Get category by ID
+      parameters:
+      - description: ID category
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CategoryStatusOKResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get category by ID
+      tags:
+      - Category
   /login:
     post:
       consumes:
@@ -1108,6 +916,232 @@ paths:
       summary: Login
       tags:
       - User
+  /product:
+    get:
+      consumes:
+      - application/json
+      description: Get all product
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Seacrh by category ID
+        in: query
+        name: category_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.GetAllProductStatusOKResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all product
+      tags:
+      - Product
+    post:
+      consumes:
+      - application/json
+      description: Create a new product
+      parameters:
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.ProductInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ProductStatusOKResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new product
+      tags:
+      - Product
+    put:
+      consumes:
+      - application/json
+      description: Update product
+      parameters:
+      - description: ID product
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.ProductInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ProductStatusOKResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update product
+      tags:
+      - Product
+  /product/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a product
+      parameters:
+      - description: ID product
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.StatusOKDeletedResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a product
+      tags:
+      - Product
+    get:
+      consumes:
+      - application/json
+      description: Get product by ID
+      parameters:
+      - description: ID product
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ProductStatusOKResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get product by ID
+      tags:
+      - Product
   /register:
     post:
       consumes:

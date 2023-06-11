@@ -9,7 +9,6 @@ import (
 type CategoryRepository interface {
 	GetAllCategorys(page, limit int) ([]models.Category, int, error)
 	GetCategoryByID(id uint) (models.Category, error)
-	GetStationByID2(id uint) (models.Station, error)
 	CreateCategory(category models.Category) (models.Category, error)
 	UpdateCategory(category models.Category) (models.Category, error)
 	DeleteCategory(category models.Category) error
@@ -46,12 +45,6 @@ func (r *categoryRepository) GetCategoryByID(id uint) (models.Category, error) {
 	var category models.Category
 	err := r.db.Where("id = ?", id).First(&category).Error
 	return category, err
-}
-
-func (r *categoryRepository) GetStationByID2(id uint) (models.Station, error) {
-	var station models.Station
-	err := r.db.Where("id = ?", id).First(&station).Error
-	return station, err
 }
 
 func (r *categoryRepository) CreateCategory(category models.Category) (models.Category, error) {
