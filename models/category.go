@@ -6,5 +6,5 @@ import (
 
 type Category struct {
 	gorm.Model
-	Name string
+	Category string
 }

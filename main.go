@@ -52,5 +52,5 @@ func main() {
 	routes.Init(e, db)
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
-	e.Logger.Fatal(e.Start(":8088"))
+	e.Logger.Fatal(e.Start(":8080"))
 }

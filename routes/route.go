@@ -41,7 +41,18 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	user.PUT("/update-password", userController.UserUpdatePassword)
 	user.PUT("/update-profile", userController.UserUpdateProfile)
 
-	// ADMIN
+	// Category
+	categoryRepository := repositories.NewCategoryRepository(db)
+	categoryUsecase := usecases.NewCategoryUsecase(categoryRepository)
+	categoryController := controllers.NewCategoryController(categoryUsecase)
+
+	category := api.Group("/category")
+	// category.Use(middlewares.JWTMiddleware)
+	category.GET("", categoryController.GetAllCategorys)
+	category.GET("/:id", categoryController.GetCategoryByID)
+	category.POST("", categoryController.CreateCategory)
+	category.PUT("/:id", categoryController.UpdateCategory)
+	category.DELETE("/:id", categoryController.DeleteCategory)
 
 	stationRepository := repositories.NewStationRepository(db)
 	stationUsecase := usecases.NewStationUsecase(stationRepository)

@@ -1,7 +1,9 @@
 package usecases
 
 import (
+	"fmt"
 	"synapsis-backend/dtos"
+	"synapsis-backend/models"
 	"synapsis-backend/repositories"
 )
 
@@ -38,7 +40,23 @@ func NewCategoryUsecase(CategoryRepo repositories.CategoryRepository) CategoryUs
 // @Router       /admin/category [get]
 // @Security BearerAuth
 func (u *categoryUsecase) GetAllCategorys(page, limit int) ([]dtos.CategoryResponse, int, error) {
-	return nil, 0, nil
+	categorys, count, err := u.categoryRepo.GetAllCategorys(page, limit)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	var categoryResponses []dtos.CategoryResponse
+	for _, category := range categorys {
+		categoryResponse := dtos.CategoryResponse{
+			CategoryID: category.ID,
+			Category:   category.Category,
+			CreatedAt:  category.CreatedAt,
+			UpdatedAt:  category.UpdatedAt,
+		}
+		categoryResponses = append(categoryResponses, categoryResponse)
+	}
+
+	return categoryResponses, count, nil
 }
 
 // GetCategoryByID godoc
@@ -57,7 +75,18 @@ func (u *categoryUsecase) GetAllCategorys(page, limit int) ([]dtos.CategoryRespo
 // @Router       /admin/category/{id} [get]
 // @Security BearerAuth
 func (u *categoryUsecase) GetCategoryByID(id uint) (dtos.CategoryResponse, error) {
-	return dtos.CategoryResponse{}, nil
+	var categoryResponses dtos.CategoryResponse
+	category, err := u.categoryRepo.GetCategoryByID(id)
+	if err != nil {
+		return categoryResponses, err
+	}
+	categoryResponse := dtos.CategoryResponse{
+		CategoryID: category.ID,
+		Category:   category.Category,
+		CreatedAt:  category.CreatedAt,
+		UpdatedAt:  category.UpdatedAt,
+	}
+	return categoryResponse, nil
 }
 
 // CreateCategory godoc
@@ -76,8 +105,25 @@ func (u *categoryUsecase) GetCategoryByID(id uint) (dtos.CategoryResponse, error
 // @Router       /admin/category [post]
 // @Security BearerAuth
 func (u *categoryUsecase) CreateCategory(category *dtos.CategoryInput) (dtos.CategoryResponse, error) {
+	var categoryResponses dtos.CategoryResponse
 
-	return dtos.CategoryResponse{}, nil
+	createCategory := models.Category{
+		Category: category.Category,
+	}
+
+	createdTrain, err := u.categoryRepo.CreateCategory(createCategory)
+	if err != nil {
+		return categoryResponses, err
+	}
+
+	categoryResponse := dtos.CategoryResponse{
+		CategoryID: createdTrain.ID,
+		Category:   createdTrain.Category,
+		CreatedAt:  createdTrain.CreatedAt,
+		UpdatedAt:  createdTrain.UpdatedAt,
+	}
+
+	return categoryResponse, nil
 }
 
 // UpdateCategory godoc
@@ -98,7 +144,29 @@ func (u *categoryUsecase) CreateCategory(category *dtos.CategoryInput) (dtos.Cat
 // @Security BearerAuth
 func (u *categoryUsecase) UpdateCategory(id uint, categoryInput dtos.CategoryInput) (dtos.CategoryResponse, error) {
 
-	return dtos.CategoryResponse{}, nil
+	var category models.Category
+	var categoryResponse dtos.CategoryResponse
+
+	category, err := u.categoryRepo.GetCategoryByID(id)
+	fmt.Println(category)
+	if err != nil {
+		return categoryResponse, err
+	}
+
+	category.Category = categoryInput.Category
+
+	category, err = u.categoryRepo.UpdateCategory(category)
+
+	if err != nil {
+		return categoryResponse, err
+	}
+
+	categoryResponse.CategoryID = category.ID
+	categoryResponse.Category = category.Category
+	categoryResponse.CreatedAt = category.CreatedAt
+	categoryResponse.UpdatedAt = category.UpdatedAt
+
+	return categoryResponse, nil
 
 }
 
