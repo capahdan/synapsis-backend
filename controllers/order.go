@@ -16,6 +16,7 @@ type OrderController interface {
 	CreateOrder(c echo.Context) error
 	UpdateOrder(c echo.Context) error
 	DeleteOrder(c echo.Context) error
+	Checkout(c echo.Context) error
 }
 
 type orderController struct {
@@ -103,6 +104,35 @@ func (c *orderController) CreateOrder(ctx echo.Context) error {
 	}
 
 	order, err := c.orderUsecase.CreateOrder(&orderDTO)
+	if err != nil {
+		return ctx.JSON(
+			http.StatusBadRequest,
+			helpers.NewErrorResponse(
+				http.StatusBadRequest,
+				"Failed to created a order",
+				helpers.GetErrorData(err),
+			),
+		)
+	}
+
+	return ctx.JSON(
+		http.StatusCreated,
+		helpers.NewResponse(
+			http.StatusCreated,
+			"Successfully to created a order",
+			order,
+		),
+	)
+}
+
+func (c *orderController) Checkout(ctx echo.Context) error {
+	var orderDTO dtos.OrderInputCheckout
+	if err := ctx.Bind(&orderDTO); err != nil {
+		return ctx.JSON(http.StatusBadRequest, dtos.ErrorDTO{
+			Message: err.Error(),
+		})
+	}
+	order, err := c.orderUsecase.Checkout(&orderDTO)
 	if err != nil {
 		return ctx.JSON(
 			http.StatusBadRequest,

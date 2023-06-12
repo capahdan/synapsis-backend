@@ -51,5 +51,6 @@ func MigrateDB(db *gorm.DB) error {
 		&models.Cart{},
 		&models.Order{},
 		&models.OrderDetail{},
+		&models.Payment{},
 	)
 }

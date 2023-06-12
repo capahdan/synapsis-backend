@@ -82,6 +82,11 @@ type OrderStatusOKResponse struct {
 	Message    string        `json:"message" example:"Successfully get order"`
 	Data       OrderResponse `json:"data"`
 }
+type OrderCheckoutStatusOKResponse struct {
+	StatusCode int                     `json:"status_code" example:"200"`
+	Message    string                  `json:"message" example:"Successfully get order"`
+	Data       []OrderResponseCheckout `json:"data"`
+}
 type PaymentCreatedResponse struct {
 	StatusCode int             `json:"status_code" example:"201"`
 	Message    string          `json:"message" example:"Successfully created payment"`

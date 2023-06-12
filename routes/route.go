@@ -54,6 +54,18 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	category.PUT("/:id", categoryController.UpdateCategory)
 	category.DELETE("/:id", categoryController.DeleteCategory)
 
+	orderDetailRepository := repositories.NewOrderDetailRepository(db)
+	orderDetailUsecase := usecases.NewOrderDetailUsecase(orderDetailRepository)
+	orderDetailController := controllers.NewOrderDetailController(orderDetailUsecase)
+
+	orderDetail := api.Group("/order_detail")
+	// orderDetail.Use(middlewares.JWTMiddleware)
+	orderDetail.GET("", orderDetailController.GetAllOrderDetails)
+	orderDetail.GET("/:id", orderDetailController.GetOrderDetailByID)
+	orderDetail.POST("", orderDetailController.CreateOrderDetail)
+	orderDetail.PUT("/:id", orderDetailController.UpdateOrderDetail)
+	orderDetail.DELETE("/:id", orderDetailController.DeleteOrderDetail)
+
 	// Product
 	productRepository := repositories.NewProductRepository(db)
 	productUsecase := usecases.NewProductUsecase(productRepository)
@@ -82,11 +94,12 @@ func Init(e *echo.Echo, db *gorm.DB) {
 
 	// Order
 	orderRepository := repositories.NewOrderRepository(db)
-	orderUsecase := usecases.NewOrderUsecase(orderRepository)
+	orderUsecase := usecases.NewOrderUsecase(orderRepository, cartRepository, productRepository, orderDetailRepository)
 	orderController := controllers.NewOrderController(orderUsecase)
 
 	order := api.Group("/order")
 	// order.Use(middlewares.JWTMiddleware)
+	cart.POST("/checkout", orderController.Checkout)
 	order.GET("", orderController.GetAllOrders)
 	order.GET("/:id", orderController.GetOrderByID)
 	order.POST("", orderController.CreateOrder)
@@ -105,18 +118,5 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	payment.POST("", paymentController.CreatePayment)
 	payment.PUT("/:id", paymentController.UpdatePayment)
 	payment.DELETE("/:id", paymentController.DeletePayment)
-
-	// Order
-	orderDetailRepository := repositories.NewOrderDetailRepository(db)
-	orderDetailUsecase := usecases.NewOrderDetailUsecase(orderDetailRepository)
-	orderDetailController := controllers.NewOrderDetailController(orderDetailUsecase)
-
-	orderDetail := api.Group("/order_detail")
-	// orderDetail.Use(middlewares.JWTMiddleware)
-	orderDetail.GET("", orderDetailController.GetAllOrderDetails)
-	orderDetail.GET("/:id", orderDetailController.GetOrderDetailByID)
-	orderDetail.POST("", orderDetailController.CreateOrderDetail)
-	orderDetail.PUT("/:id", orderDetailController.UpdateOrderDetail)
-	orderDetail.DELETE("/:id", orderDetailController.DeleteOrderDetail)
 
 }
