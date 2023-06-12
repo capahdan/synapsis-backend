@@ -93,6 +93,19 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	order.PUT("/:id", orderController.UpdateOrder)
 	order.DELETE("/:id", orderController.DeleteOrder)
 
+	// Payment
+	paymentRepository := repositories.NewPaymentRepository(db)
+	paymentUsecase := usecases.NewPaymentUsecase(paymentRepository)
+	paymentController := controllers.NewPaymentController(paymentUsecase)
+
+	payment := api.Group("/payment")
+	// payment.Use(middlewares.JWTMiddleware)
+	payment.GET("", paymentController.GetAllPayments)
+	payment.GET("/:id", paymentController.GetPaymentByID)
+	payment.POST("", paymentController.CreatePayment)
+	payment.PUT("/:id", paymentController.UpdatePayment)
+	payment.DELETE("/:id", paymentController.DeletePayment)
+
 	// Order
 	orderDetailRepository := repositories.NewOrderDetailRepository(db)
 	orderDetailUsecase := usecases.NewOrderDetailUsecase(orderDetailRepository)

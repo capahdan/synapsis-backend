@@ -65,6 +65,57 @@ type CartStatusOKResponse struct {
 	Message    string       `json:"message" example:"Successfully get cart"`
 	Data       CartResponse `json:"data"`
 }
+type OrderCreatedResponse struct {
+	StatusCode int           `json:"status_code" example:"201"`
+	Message    string        `json:"message" example:"Successfully created order"`
+	Data       OrderResponse `json:"data"`
+}
+
+type GetAllOrderStatusOKResponse struct {
+	StatusCode int           `json:"status_code" example:"200"`
+	Message    string        `json:"message" example:"Successfully get order"`
+	Data       OrderResponse `json:"data"`
+	Meta       helpers.Meta  `json:"meta"`
+}
+type OrderStatusOKResponse struct {
+	StatusCode int           `json:"status_code" example:"200"`
+	Message    string        `json:"message" example:"Successfully get order"`
+	Data       OrderResponse `json:"data"`
+}
+type PaymentCreatedResponse struct {
+	StatusCode int             `json:"status_code" example:"201"`
+	Message    string          `json:"message" example:"Successfully created payment"`
+	Data       PaymentResponse `json:"data"`
+}
+
+type GetAllPaymentStatusOKResponse struct {
+	StatusCode int             `json:"status_code" example:"200"`
+	Message    string          `json:"message" example:"Successfully get payment"`
+	Data       PaymentResponse `json:"data"`
+	Meta       helpers.Meta    `json:"meta"`
+}
+type PaymentStatusOKResponse struct {
+	StatusCode int             `json:"status_code" example:"200"`
+	Message    string          `json:"message" example:"Successfully get payment"`
+	Data       PaymentResponse `json:"data"`
+}
+type OrderDetailCreatedResponse struct {
+	StatusCode int                 `json:"status_code" example:"201"`
+	Message    string              `json:"message" example:"Successfully created order"`
+	Data       OrderDetailResponse `json:"data"`
+}
+
+type GetAllOrderDetailStatusOKResponse struct {
+	StatusCode int                 `json:"status_code" example:"200"`
+	Message    string              `json:"message" example:"Successfully get order"`
+	Data       OrderDetailResponse `json:"data"`
+	Meta       helpers.Meta        `json:"meta"`
+}
+type OrderDetailStatusOKResponse struct {
+	StatusCode int                 `json:"status_code" example:"200"`
+	Message    string              `json:"message" example:"Successfully get order"`
+	Data       OrderDetailResponse `json:"data"`
+}
 
 type StatusOKDeletedResponse struct {
 	StatusCode int         `json:"status_code" example:"200"`
