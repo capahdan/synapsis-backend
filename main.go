@@ -20,10 +20,10 @@ import (
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// localhost:8080
-// localhost:8080
+// https://rest-api-7qon5jxieq-et.a.run.app/
+// https://rest-api-7qon5jxieq-et.a.run.app/
 
-// @host      localhost:8080
+// @host      https://rest-api-7qon5jxieq-et.a.run.app/
 // @BasePath  /api/v1
 
 // @securityDefinitions.apikey BearerAuth
