@@ -80,4 +80,17 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	cart.PUT("/:id", cartController.UpdateCart)
 	cart.DELETE("/:id", cartController.DeleteCart)
 
+	// Order
+	orderRepository := repositories.NewOrderRepository(db)
+	orderUsecase := usecases.NewOrderUsecase(orderRepository)
+	orderController := controllers.NewOrderController(orderUsecase)
+
+	order := api.Group("/order")
+	// order.Use(middlewares.JWTMiddleware)
+	order.GET("", orderController.GetAllOrders)
+	order.GET("/:id", orderController.GetOrderByID)
+	order.POST("", orderController.CreateOrder)
+	order.PUT("/:id", orderController.UpdateOrder)
+	order.DELETE("/:id", orderController.DeleteOrder)
+
 }

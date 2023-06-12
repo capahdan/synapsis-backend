@@ -15,5 +15,7 @@ type User struct {
 	Gender      string
 	BirthDate   *time.Time
 	Citizen     string
-	Carts       []Cart `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Carts       []Cart    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Orders      []Order   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Payments    []Payment `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }

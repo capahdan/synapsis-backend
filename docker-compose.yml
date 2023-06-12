@@ -1,7 +1,21 @@
-version: "3"
+version: '3'
 services:
-  app:
-    build: .
-    restart: on-failure
-    ports:
-      - 8088:8088
+    synapsis-postgres:
+        image: postgres:15-alpine
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=Advent777
+            - POSTGRES_DB=synapsis
+        volumes:
+            - ./pgdata:/var/lib/postgresql/data
+    synapsis-backend:
+        build: .
+        ports:
+          - 8080:8080
+        environment:
+            - DATABASE_URL=postgres://postgres:Advent777@localhost:5432/synapsis?sslmode=disable
+        depends_on:
+            - synapsis-postgres
+        restart: "on-failure"
