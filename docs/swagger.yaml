@@ -200,6 +200,19 @@ definitions:
         example: 404
         type: integer
     type: object
+  dtos.OrderCheckoutStatusOKResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dtos.OrderResponseCheckout'
+        type: array
+      message:
+        example: Successfully get order
+        type: string
+      status_code:
+        example: 200
+        type: integer
+    type: object
   dtos.OrderDetailInput:
     properties:
       discount:
@@ -258,12 +271,15 @@ definitions:
     type: object
   dtos.OrderInput:
     properties:
-      status:
-        example: true
-        type: boolean
       total_price:
         example: 100000
         type: integer
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  dtos.OrderInputCheckout:
+    properties:
       user_id:
         example: 1
         type: integer
@@ -277,8 +293,33 @@ definitions:
         example: 1
         type: integer
       status:
-        example: true
-        type: boolean
+        example: unpaid
+        type: string
+      total_price:
+        example: 100000
+        type: integer
+      updated_at:
+        example: "2023-05-17T15:07:16.504+07:00"
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  dtos.OrderResponseCheckout:
+    properties:
+      created_at:
+        example: "2023-05-17T15:07:16.504+07:00"
+        type: string
+      order_detail:
+        items:
+          $ref: '#/definitions/dtos.OrderDetailResponse'
+        type: array
+      order_id:
+        example: 1
+        type: integer
+      status:
+        example: unpaid
+        type: string
       total_price:
         example: 100000
         type: integer
@@ -811,6 +852,50 @@ paths:
       summary: Update cart
       tags:
       - Cart
+  /cart/checkout:
+    post:
+      consumes:
+      - application/json
+      description: Create a new order from cart
+      parameters:
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.OrderInputCheckout'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.OrderCheckoutStatusOKResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.BadRequestResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dtos.UnauthorizedResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dtos.ForbiddenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.NotFoundResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.InternalServerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new order from cart
+      tags:
+      - Cart
   /category:
     get:
       consumes:
@@ -1089,10 +1174,10 @@ paths:
         in: query
         name: limit
         type: integer
-      - description: Seacrh by category ID
+      - description: Seacrh by status like 'paid' or 'unpaid'
         in: query
-        name: user_id
-        type: integer
+        name: Status
+        type: string
       produces:
       - application/json
       responses:

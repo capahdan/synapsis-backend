@@ -169,6 +169,75 @@ const docTemplate = `{
                 }
             }
         },
+        "/cart/checkout": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new order from cart",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Create a new order from cart",
+                "parameters": [
+                    {
+                        "description": "Payload Body [RAW]",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.OrderInputCheckout"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.OrderCheckoutStatusOKResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.BadRequestResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.ForbiddenResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.NotFoundResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.InternalServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/cart/{id}": {
             "get": {
                 "security": [
@@ -816,9 +885,9 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "integer",
-                        "description": "Seacrh by category ID",
-                        "name": "user_id",
+                        "type": "string",
+                        "description": "Seacrh by status like 'paid' or 'unpaid'",
+                        "name": "Status",
                         "in": "query"
                     }
                 ],
@@ -2805,6 +2874,25 @@ const docTemplate = `{
                 }
             }
         },
+        "dtos.OrderCheckoutStatusOKResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dtos.OrderResponseCheckout"
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Successfully get order"
+                },
+                "status_code": {
+                    "type": "integer",
+                    "example": 200
+                }
+            }
+        },
         "dtos.OrderDetailInput": {
             "type": "object",
             "properties": {
@@ -2886,14 +2974,19 @@ const docTemplate = `{
         "dtos.OrderInput": {
             "type": "object",
             "properties": {
-                "status": {
-                    "type": "boolean",
-                    "example": true
-                },
                 "total_price": {
                     "type": "integer",
                     "example": 100000
                 },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "dtos.OrderInputCheckout": {
+            "type": "object",
+            "properties": {
                 "user_id": {
                     "type": "integer",
                     "example": 1
@@ -2912,8 +3005,43 @@ const docTemplate = `{
                     "example": 1
                 },
                 "status": {
-                    "type": "boolean",
-                    "example": true
+                    "type": "string",
+                    "example": "unpaid"
+                },
+                "total_price": {
+                    "type": "integer",
+                    "example": 100000
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2023-05-17T15:07:16.504+07:00"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "dtos.OrderResponseCheckout": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2023-05-17T15:07:16.504+07:00"
+                },
+                "order_detail": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dtos.OrderDetailResponse"
+                    }
+                },
+                "order_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "status": {
+                    "type": "string",
+                    "example": "unpaid"
                 },
                 "total_price": {
                     "type": "integer",
