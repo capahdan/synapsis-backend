@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"synapsis-backend/dtos"
 	"synapsis-backend/models"
 	"synapsis-backend/repositories"
@@ -16,10 +17,14 @@ type PaymentUsecase interface {
 
 type paymentUsecase struct {
 	paymentRepo repositories.PaymentRepository
+	orderRepo   repositories.OrderRepository
 }
 
-func NewPaymentUsecase(PaymentRepo repositories.PaymentRepository) PaymentUsecase {
-	return &paymentUsecase{PaymentRepo}
+func NewPaymentUsecase(
+	PaymentRepo repositories.PaymentRepository,
+	OrderRepo repositories.OrderRepository,
+) PaymentUsecase {
+	return &paymentUsecase{PaymentRepo, OrderRepo}
 }
 
 // GetAllPayments godoc
@@ -120,6 +125,25 @@ func (u *paymentUsecase) CreatePayment(payment *dtos.PaymentInput) (dtos.Payment
 		OrderID:     payment.OrderID,
 		PaymentType: payment.PaymentType,
 		Amount:      payment.Amount,
+	}
+
+	order, err := u.orderRepo.GetOrderByID(createPayment.OrderID)
+	if err != nil {
+		return paymentResponses, err
+	}
+
+	// if Amount Money in Payment < order.TotalPrice
+	if createPayment.Amount < order.TotalPrice {
+		return paymentResponses, errors.New("Amount Money in Payment < order.TotalPrice")
+	}
+
+	// Update Status Order to Paid
+
+	order.Status = "paid"
+	order, err = u.orderRepo.UpdateOrder(order)
+
+	if err != nil {
+		return paymentResponses, err
 	}
 
 	createdPayment, err := u.paymentRepo.CreatePayment(createPayment)

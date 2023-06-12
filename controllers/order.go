@@ -41,10 +41,9 @@ func (c *orderController) GetAllOrders(ctx echo.Context) error {
 	if err != nil {
 		limit = 10
 	}
-	userParam := ctx.QueryParam("user_id")
-	user_id, err := strconv.Atoi(userParam)
+	status := ctx.QueryParam("status")
 
-	orders, count, err := c.orderUsecase.GetAllOrders(page, limit, user_id)
+	orders, count, err := c.orderUsecase.GetAllOrders(page, limit, status)
 	if err != nil {
 		return ctx.JSON(
 			http.StatusBadRequest,

@@ -108,7 +108,7 @@ func Init(e *echo.Echo, db *gorm.DB) {
 
 	// Payment
 	paymentRepository := repositories.NewPaymentRepository(db)
-	paymentUsecase := usecases.NewPaymentUsecase(paymentRepository)
+	paymentUsecase := usecases.NewPaymentUsecase(paymentRepository, orderRepository)
 	paymentController := controllers.NewPaymentController(paymentUsecase)
 
 	payment := api.Group("/payment")

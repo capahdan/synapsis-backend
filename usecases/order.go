@@ -1,13 +1,14 @@
 package usecases
 
 import (
+	"errors"
 	"synapsis-backend/dtos"
 	"synapsis-backend/models"
 	"synapsis-backend/repositories"
 )
 
 type OrderUsecase interface {
-	GetAllOrders(page, limit, user_id int) ([]dtos.OrderResponse, int, error)
+	GetAllOrders(page, limit int, status string) ([]dtos.OrderResponse, int, error)
 	GetOrderByID(id uint) (dtos.OrderResponse, error)
 	CreateOrder(order *dtos.OrderInput) (dtos.OrderResponse, error)
 	Checkout(order *dtos.OrderInputCheckout) (dtos.OrderResponseCheckout, error)
@@ -40,7 +41,7 @@ func NewOrderUsecase(
 // @Produce      json
 // @Param page query int false "Page number"
 // @Param limit query int false "Number of items per page"
-// @Param user_id query int false "Seacrh by category ID"
+// @Param Status query string false "Seacrh by status like 'paid' or 'unpaid'"
 // @Success      200 {object} dtos.GetAllOrderStatusOKResponse
 // @Failure      400 {object} dtos.BadRequestResponse
 // @Failure      401 {object} dtos.UnauthorizedResponse
@@ -49,8 +50,8 @@ func NewOrderUsecase(
 // @Failure      500 {object} dtos.InternalServerErrorResponse
 // @Router       /order [get]
 // @Security BearerAuth
-func (u *orderUsecase) GetAllOrders(page, limit, user_id int) ([]dtos.OrderResponse, int, error) {
-	orders, count, err := u.orderRepo.GetAllOrders(page, limit, user_id)
+func (u *orderUsecase) GetAllOrders(page, limit int, status string) ([]dtos.OrderResponse, int, error) {
+	orders, count, err := u.orderRepo.GetAllOrders(page, limit, status)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -152,7 +153,7 @@ func (u *orderUsecase) CreateOrder(order *dtos.OrderInput) (dtos.OrderResponse, 
 // @Tags         Cart
 // @Accept       json
 // @Produce      json
-// @Param        request body dtos.OrderInput. true "Payload Body [RAW]"
+// @Param        request body dtos.OrderInputCheckout. true "Payload Body [RAW]"
 // @Success      200 {object} dtos.OrderCheckoutStatusOKResponse
 // @Failure      400 {object} dtos.BadRequestResponse
 // @Failure      401 {object} dtos.UnauthorizedResponse
@@ -169,6 +170,9 @@ func (u *orderUsecase) Checkout(order *dtos.OrderInputCheckout) (dtos.OrderRespo
 	carts, _, err := u.cartRepo.GetAllCarts(page, limit, int(order.UserID))
 	if err != nil {
 		return orderResponses, err
+	}
+	if len(carts) == 0 {
+		return orderResponses, errors.New("Cart is empty")
 	}
 
 	for _, cart := range carts {
@@ -224,6 +228,10 @@ func (u *orderUsecase) Checkout(order *dtos.OrderInputCheckout) (dtos.OrderRespo
 
 		orderDetailResponses = append(orderDetailResponses, orderDetail)
 		// And delete all carts
+		err = u.cartRepo.DeleteCart(cart)
+		if err != nil {
+			return orderResponses, err
+		}
 
 	}
 
