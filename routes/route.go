@@ -93,4 +93,17 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	order.PUT("/:id", orderController.UpdateOrder)
 	order.DELETE("/:id", orderController.DeleteOrder)
 
+	// Order
+	orderDetailRepository := repositories.NewOrderDetailRepository(db)
+	orderDetailUsecase := usecases.NewOrderDetailUsecase(orderDetailRepository)
+	orderDetailController := controllers.NewOrderDetailController(orderDetailUsecase)
+
+	orderDetail := api.Group("/order_detail")
+	// orderDetail.Use(middlewares.JWTMiddleware)
+	orderDetail.GET("", orderDetailController.GetAllOrderDetails)
+	orderDetail.GET("/:id", orderDetailController.GetOrderDetailByID)
+	orderDetail.POST("", orderDetailController.CreateOrderDetail)
+	orderDetail.PUT("/:id", orderDetailController.UpdateOrderDetail)
+	orderDetail.DELETE("/:id", orderDetailController.DeleteOrderDetail)
+
 }

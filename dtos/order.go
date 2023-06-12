@@ -9,7 +9,7 @@ type OrderInput struct {
 }
 
 type OrderResponse struct {
-	OrderID    uint      `json:"product_id" example:"1"`
+	OrderID    uint      `json:"order_id" example:"1"`
 	UserID     uint      `json:"user_id" example:"1"`
 	TotalPrice int       `json:"total_price" example:"100000"`
 	Status     bool      `json:"status" example:"true"`
