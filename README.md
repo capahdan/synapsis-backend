@@ -97,6 +97,8 @@ run locally setup the database in postgresql and configure the database name etc
 all the documentation of API can be found in **/docs/swagger.yaml
 and you can see in swagger ui in https://rest-api-7qon5jxieq-et.a.run.app/swagger/
 
+Before you can use This API first you need to register and login to get the token. and use the token to access the API
+
 Actually if we want to make transaction . 
 - First we need to add product to cart  (POST /cart)
 - we can checkout the product at cart (POST /cart/checkout)
