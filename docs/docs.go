@@ -3467,7 +3467,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "https://rest-api-7qon5jxieq-et.a.run.app/",
+	Host:             "rest-api-7qon5jxieq-et.a.run.app",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Synapsis Online Store API Documentation",

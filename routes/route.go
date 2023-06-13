@@ -47,7 +47,7 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	categoryController := controllers.NewCategoryController(categoryUsecase)
 
 	category := api.Group("/category")
-	// category.Use(middlewares.JWTMiddleware)
+	category.Use(middlewares.JWTMiddleware)
 	category.GET("", categoryController.GetAllCategorys)
 	category.GET("/:id", categoryController.GetCategoryByID)
 	category.POST("", categoryController.CreateCategory)
@@ -59,7 +59,7 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	orderDetailController := controllers.NewOrderDetailController(orderDetailUsecase)
 
 	orderDetail := api.Group("/order_detail")
-	// orderDetail.Use(middlewares.JWTMiddleware)
+	orderDetail.Use(middlewares.JWTMiddleware)
 	orderDetail.GET("", orderDetailController.GetAllOrderDetails)
 	orderDetail.GET("/:id", orderDetailController.GetOrderDetailByID)
 	orderDetail.POST("", orderDetailController.CreateOrderDetail)
@@ -72,7 +72,7 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	productController := controllers.NewProductController(productUsecase)
 
 	product := api.Group("/product")
-	// product.Use(middlewares.JWTMiddleware)
+	product.Use(middlewares.JWTMiddleware)
 	product.GET("", productController.GetAllProducts)
 	product.GET("/:id", productController.GetProductByID)
 	product.POST("", productController.CreateProduct)
@@ -85,7 +85,7 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	cartController := controllers.NewCartController(cartUsecase)
 
 	cart := api.Group("/cart")
-	// cart.Use(middlewares.JWTMiddleware)
+	cart.Use(middlewares.JWTMiddleware)
 	cart.GET("", cartController.GetAllCarts)
 	cart.GET("/:id", cartController.GetCartByID)
 	cart.POST("", cartController.CreateCart)
@@ -98,7 +98,7 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	orderController := controllers.NewOrderController(orderUsecase)
 
 	order := api.Group("/order")
-	// order.Use(middlewares.JWTMiddleware)
+	order.Use(middlewares.JWTMiddleware)
 	cart.POST("/checkout", orderController.Checkout)
 	order.GET("", orderController.GetAllOrders)
 	order.GET("/:id", orderController.GetOrderByID)
@@ -112,7 +112,7 @@ func Init(e *echo.Echo, db *gorm.DB) {
 	paymentController := controllers.NewPaymentController(paymentUsecase)
 
 	payment := api.Group("/payment")
-	// payment.Use(middlewares.JWTMiddleware)
+	payment.Use(middlewares.JWTMiddleware)
 	payment.GET("", paymentController.GetAllPayments)
 	payment.GET("/:id", paymentController.GetPaymentByID)
 	payment.POST("", paymentController.CreatePayment)

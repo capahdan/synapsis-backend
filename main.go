@@ -23,7 +23,7 @@ import (
 // https://rest-api-7qon5jxieq-et.a.run.app/
 // https://rest-api-7qon5jxieq-et.a.run.app/
 
-// @host      https://rest-api-7qon5jxieq-et.a.run.app/
+// @host      rest-api-7qon5jxieq-et.a.run.app
 // @BasePath  /api/v1
 
 // @securityDefinitions.apikey BearerAuth
@@ -38,6 +38,10 @@ func main() {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http:localhost:8080", "https:rest-api-7qon5jxieq-et.a.run.app"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
 
 	db, err := configs.ConnectDB()
 	if err != nil {

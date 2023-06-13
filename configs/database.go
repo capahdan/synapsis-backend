@@ -26,6 +26,7 @@ func ConnectDB() (*gorm.DB, error) {
 	}
 
 	dsn := os.Getenv("DATABASE_URL")
+	dsn = "postgres://postgres:Advent777@localhost:5432/synapsis?sslmode=disable"
 
 	dbConn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 

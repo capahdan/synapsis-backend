@@ -13,7 +13,7 @@
         },
         "version": "1.0"
     },
-    "host": "https://rest-api-7qon5jxieq-et.a.run.app/",
+    "host": "rest-api-7qon5jxieq-et.a.run.app",
     "basePath": "/api/v1",
     "paths": {
         "/cart": {
