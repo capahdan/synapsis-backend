@@ -95,7 +95,10 @@ run locally setup the database in postgresql and configure the database name etc
 ## API Reference
 
 all the documentation of API can be found in **/docs/swagger.yaml
-and you can see in swagger ui in http://localhost:8080/swagger/index.html
+and you can see in swagger ui in https://rest-api-7qon5jxieq-et.a.run.app/swagger/
 
-Actually if we want to make transaction . First we need to add product to cart and the we can checkout the product at cart. automatically the api will created the order and detail product. After we finish checkout all the product in cart will be deleted. 
-and lastly make payment
+Actually if we want to make transaction . 
+- First we need to add product to cart  (POST /cart)
+- we can checkout the product at cart (POST /cart/checkout)
+- automatically the api will created the order and detail product. After we finish checkout all the product in cart will be deleted. 
+- lastly make payment (POST /payment) and the order will be updated to paid status
